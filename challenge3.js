@@ -3,7 +3,7 @@ function netSalaryCalculator(basicSalary, benefits) {
   benefits = Number(benefits);
 
   if (isNaN(basicSalary) || isNaN(benefits) || basicSalary < 0 || benefits < 0) {
-    return "Invalid input. Enter non-negative numbers.";
+    return "Invalid input. Enter non-negative numbers."; //input validation
   }
 
   const grossSalary = basicSalary + benefits;

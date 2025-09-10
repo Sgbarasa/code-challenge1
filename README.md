@@ -1,152 +1,158 @@
 # JavaScript Code Challenge — Student Grade Generator (Challenge 1)
 
 ## Description
-I implemented `studentGrade(marks)` to validate a numeric mark (0–100) and return the correct letter grade. Strict input validation is enforced (must be a `number`).
+I implemented `studentGrade(marks)` to validate a numeric mark (0–100) and return the correct letter grade. I used `number` for strict input validation.
 
 ## How I approached & solved it (step-by-step)
-Problem — map numeric marks to grades:
 
-A: > 79
+### 1. The Problem: Map Numeric Marks to Grades
 
-B: 60–79
+The core task was to map a given numerical score to its corresponding letter grade based on the following scale:
+* **A:** > 79
+* **B:** 60–79
+* **C:** 50–59
+* **D:** 40–49
+* **E:** < 40
 
-C: 50–59
+---
 
-D: 40–49
+### 2. Input Validation (First Priority)
 
-E: < 40
+Before any grading logic, the function first checks if the input is a valid number and within the appropriate range (0-100).
 
-- Input validation (first) — check that marks is a number and within range:
+The validation check is:
+`typeof marks !== "number" || marks < 0 || marks > 100`
 
-typeof marks !== "number" || marks < 0 || marks > 100 → return
-Invalid input. Please enter a valid grade between 0 and 100
+If the input fails this check, the function returns the following error message:
+`Invalid input. Please enter a valid grade between 0 and 100`
 
-- Rationale: the challenge expects strict numeric input (no "80" strings).
+**Rationale:** This strict validation ensures the function only processes numeric inputs, as required by the challenge, and rejects string inputs like `"80"`.
 
-Grading logic — used an if / else if ladder from highest to lowest:
+---
 
-marks > 79 → "Grade: A"
+### 3. Grading Logic
 
-marks >= 60 → "Grade: B"
+An `if / else if` ladder was used to determine the correct grade. The checks proceed from the highest grade to the lowest to ensure correctness.
 
-marks >= 50 → "Grade: C"
+1.  **marks > 79** → `"Grade: A"`
+2.  **marks >= 60** → `"Grade: B"`
+3.  **marks >= 50** → `"Grade: C"`
+4.  **marks >= 40** → `"Grade: D"`
+5.  **else** → `"Grade: E"`
 
-marks >= 40 → "Grade: D"
+---
 
-else → "Grade: E"
+### 4. Return Values
 
-Return values — function returns the exact strings used for grading or the exact invalid-input message.
+The function returns the exact strings for either the calculated grade or the invalid input message, ensuring the output matches the project's requirements.
 
-Variables used (very brief)
-marks — the single input (number). Used for validation and to pick the grade bracket. No other variables required.
+---
 
-Edge cases & exact expected outputs
+### 5. Variables Used
 
-Non-number or out-of-range:
+* **`marks`**: The single numeric input. This variable is used for both validation and determining the correct grade bracket. No other variables were required.
 
+---
+
+### 6. Edge Cases & Expected Outputs
+
+The primary edge case handled is invalid input:
+* **Non-number or out-of-range input**: The function returns the specific error message `Invalid input. Please enter a valid grade between 0 and 100`.
+
+``` javascript
+
+Invalid samples
 studentGrade(110)      // "Invalid input. Please enter a valid grade between 0 and 100"
 studentGrade("John")   // "Invalid input. Please enter a valid grade between 0 and 100"
+
 Valid samples:
 
 studentGrade(93)  // "Grade: A"
 studentGrade(37)  // "Grade: E"
 
-(Challenge 2)
+```
+---
+
+# Challenge 2: Speed Detector
 
 ## Description
-I implemented `speedDetector(speed)` to check if a driver is within the legal speed limit and, if not, calculate demerit points. If points exceed 12, the license is suspended.  
+I implemented `speedDetector(speed)` to check if a driver is within the legal speed limit and, if not, calculate demerit points. If the points exceed 12, the license is suspended.
 
+---
 
 ## How I approached & solved it
 
-Problem — check if speed ≤ 70:
+* **Problem — check if speed ≤ 70:**
+    * If yes → `"Ok"`
+    * Else → calculate points for every 5 km/h over 70.
+    * If points > 12 → `"License suspended"`
 
-If yes → "Ok"
+* **Input validation (first) — ensure speed is a valid number:**
+    * Convert input with `Number(speed)`.
+    * If `isNaN(speed)` or `speed < 0` → return `"Invalid input. Please enter a valid speed."`
 
-Else → calculate points for every 5 km/h over 70
+* **Calculation:**
+    * Use `Math.floor((speed - 70) / 5)` to count whole points only.
+    * Use a ternary operator to decide between `"License suspended"` or `"Points: X"`.
 
-If points > 12 → "License suspended"
+* **Variables used:**
+    * `speed` — input, converted to a number.
+    * `speedLimit = 70` — legal speed limit.
+    * `kmPerDemerit = 5` — interval for each demerit point.
+    * `points` — computed demerit points after flooring.
 
-Input validation (first) — ensure speed is a valid number:
+---
 
-Convert input with Number(speed)
+## Edge cases & exact expected outputs
 
-If isNaN(speed) or speed < 0 → return
-"Invalid input. Please enter a valid speed."
+```javascript
+speedDetector(65)      // "Ok"
+speedDetector(80)      // "Points: 2"
+speedDetector(135)     // "License suspended"
+speedDetector("90")    // "Points: 4"
+speedDetector(-5)      // "Invalid input. Please enter a valid speed." 
 
-Calculation
+```
+---
 
-Use Math.floor((speed - 70) / 5) to count whole points only
-
-Use ternary operator to decide between "License suspended" or "Points: X"
-
-Variables used (very brief)
-speed — input, converted to number
-
-speedLimit = 70 — legal speed limit
-
-kmPerDemerit = 5 — interval for each demerit point
-
-points — computed demerit points after flooring
-
-Edge cases & exact expected outputs
-js
-Copy code
-speedDetector(65)    // "Ok"
-speedDetector(80)    // "Points: 2"
-speedDetector(135)   // "License suspended"
-speedDetector("90")  // "Points: 4"
-speedDetector(-5)    // "Invalid input. Please enter a valid speed."
-
-# JavaScript Code Challenge — Net Salary Calculator (Challenge 3)
+# Challenge 3: Net Salary Calculator
 
 ## Description
 I implemented `netSalaryCalculator(basicSalary, benefits)` to compute an individual’s **gross salary**, **PAYE (tax)**, **SHIF**, **NSSF**, and **net salary** based on KRA tax bands and statutory rates.
 
+---
+
 ## How I approached & solved it
-Problem — compute:
 
-Gross salary = basic + benefits
+* **Problem — compute:**
+    * Gross salary = `basic + benefits`
+    * PAYE using KRA tax bands + apply personal relief (KES 2400)
+    * SHIF = `2.75% of gross salary` (minimum 300)
+    * NSSF = `6% Tier 1 + Tier 2` up to 72,000
+    * Net salary = `gross - (PAYE + SHIF + NSSF)`
 
-PAYE using KRA tax bands + apply personal relief (KES 2400)
+* **Input validation (first) — convert inputs with `Number(...)` and check:**
+    * `isNaN(basicSalary)` / `isNaN(benefits)` or negative values → `"Invalid input. Enter non-negative numbers."`
 
-SHIF = 2.75% of gross salary (minimum 300)
+* **Calculation:**
+    * Used `if / else if` ladder for PAYE brackets.
+    * Applied `Math.max(0, paye - personalRelief)` so PAYE never goes below 0.
+    * Used `Math.min(...)` to cap NSSF Tier 2 at 72,000.
+    * Rounded all amounts with `Math.round()` before returning.
 
-NSSF = 6% Tier 1 + Tier 2 up to 72,000
+* **Variables used (very brief):**
+    * `basicSalary`, `benefits` — inputs.
+    * `grossSalary` — sum of basic + benefits.
+    * `paye` — PAYE tax after applying relief.
+    * `shif` — health levy (min 300).
+    * `nssf` — pension deduction (tiered).
+    * `netSalary` — final take-home pay.
 
-Net salary = gross - (PAYE + SHIF + NSSF)
+---
 
-Input validation (first) — convert inputs with Number(...) and check:
+## Edge cases & exact expected output
 
-isNaN(basicSalary) / isNaN(benefits) or negative values →
-"Invalid input. Enter non-negative numbers."
-
-Calculation
-
-Used if / else if ladder for PAYE brackets
-
-Applied Math.max(0, paye - personalRelief) so PAYE never goes below 0
-
-Used Math.min(...) to cap NSSF Tier 2 at 72,000
-
-Rounded all amounts with Math.round before returning
-
-Variables used (very brief)
-basicSalary, benefits — inputs
-
-grossSalary — sum of basic + benefits
-
-paye — PAYE tax after applying relief
-
-shif — health levy (min 300)
-
-nssf — pension deduction (tiered)
-
-netSalary — final take-home pay
-
-Edge cases & exact expected output
-js
-Copy code
+```javascript
 netSalaryCalculator(50000, 5000)
 /* returns:
 {
@@ -163,9 +169,10 @@ netSalaryCalculator(50000, 5000)
 netSalaryCalculator(-1000, 2000)
 // "Invalid input. Enter non-negative numbers."
 
+```
 
-Author & License
+# Author & License
 
-Author: Stanley Barasa Gitau
+* Author: Stanley Barasa Gitau
 
-License: MIT
+* License: MIT

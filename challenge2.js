@@ -5,12 +5,12 @@ function speedDetector(speed) {
   const kmPerDemerit = 5;
 
   if (isNaN(speed) || speed < 0) {
-    return "Invalid input. Please enter a valid speed.";
-  } else if (speed <= speedLimit) {
+    return "Invalid input. Please enter a valid speed."; //input validation
+  } else if (speed <= speedLimit) {  //checks if speed is less than the speed limit
     return "Ok";
   } else {
-    const points = Math.floor((speed - speedLimit) / kmPerDemerit);
-    return points > 12 ? "License suspended" : `Points: ${points}`;
+    const points = Math.floor((speed - speedLimit) / kmPerDemerit); 
+    return points > 12 ? "License suspended" : `Points: ${points}`; //ternary for deciding whether to output the points or suspend the driver
   }
 }
 
